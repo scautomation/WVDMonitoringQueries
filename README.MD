@@ -10,10 +10,15 @@ There are several areas, WVD specific logs, RemoteFX Performance counters and Ge
 To use the RemoteFX dashboard the below counters need to be added to Log Analytics perf counters. You can use PerfMon to find the exact name of any counter you want to add and add it. (https://www.systemcenterautomation.com/2018/11/custom-performance-counters-log-analytics/)
 
 RemoteFX Graphics - Frames Skipped/Second - Insufficient Network Resources
+
 RemoteFX Graphics - Frames Skipped/Second - Insufficient Server Resources
+
 RemoteFX Graphics - Frames Skipped/Second - Insufficient Client Resources
+
 RemoteFX Graphics - Source Frames/Second
+
 RemoteFX Graphics - Frame Quality
+
 RemoteFX Graphics - Graphics Compression ratio
 
 Example RemoteFX Dashboard
