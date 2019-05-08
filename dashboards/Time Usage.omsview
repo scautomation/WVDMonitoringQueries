@@ -1,0 +1,361 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "resourcegroup": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "subscriptionId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "workspace": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "workspaceapiversion": {
+            "type": "string",
+            "defaultValue": ""
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "[parameters('workspaceapiversion')]",
+            "name": "[parameters('workspace')]",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "location": "[parameters('location')]",
+            "id": "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'))]",
+            "resources": [
+                {
+                    "apiVersion": "2015-11-01-preview",
+                    "name": "Time Usage",
+                    "type": "views",
+                    "location": "[parameters('location')]",
+                    "id": "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'),'/views/Time Usage')]",
+                    "dependson": [
+                        "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'))]"
+                    ],
+                    "properties": {
+                        "Id": "Time Usage",
+                        "Name": "Time Usage",
+                        "Author": null,
+                        "Source": "Local",
+                        "Version": 2,
+                        "Dashboard": [
+                            {
+                                "Id": "NumberTileListBuilderBlade",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "Hostpools",
+                                        "newGroup": false,
+                                        "icon": "",
+                                        "useIcon": false
+                                    },
+                                    "Tile": {
+                                        "Legend": "Count of Hostpools",
+                                        "Query": "WVD_CL | summarize dcount(Details_SessionHostPoolName_s)",
+                                        "NavigationSelect": {}
+                                    },
+                                    "List": {
+                                        "Query": "WVD_CL | where ActivityType_s == \"Connection\"  and Status_d == '1' | distinct StartTime_t, EndTime_t, UserName_s, Details_SessionHostName_s, Details_SessionHostPoolName_s | extend Seconds = datetime_diff('second', EndTime_t, StartTime_t) | extend Hours = Seconds / 3600.00 | summarize sum(Hours) by Details_SessionHostPoolName_s",
+                                        "HideGraph": false,
+                                        "enableSparklines": false,
+                                        "ColumnsTitle": {
+                                            "Name": "Hostpool",
+                                            "Value": "UsageTime"
+                                        },
+                                        "Color": "#0072c6",
+                                        "thresholds": {
+                                            "isEnabled": false,
+                                            "values": [
+                                                {
+                                                    "name": "Normal",
+                                                    "threshold": "Default",
+                                                    "color": "#009e49",
+                                                    "isDefault": true
+                                                },
+                                                {
+                                                    "name": "Warning",
+                                                    "threshold": "60",
+                                                    "color": "#fcd116",
+                                                    "isDefault": false
+                                                },
+                                                {
+                                                    "name": "Error",
+                                                    "threshold": "90",
+                                                    "color": "#ba141a",
+                                                    "isDefault": false
+                                                }
+                                            ]
+                                        },
+                                        "NameDSVSeparator": "",
+                                        "NavigationQuery": "search {selected item} | sort by TimeGenerated desc",
+                                        "NavigationSelect": {
+                                            "NavigationQuery": "search {selected item} | sort by TimeGenerated desc"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "Id": "SingleQueryDonutBuilderBladeV1",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "USAGE OVER TIME",
+                                        "newGroup": false,
+                                        "icon": "",
+                                        "useIcon": false
+                                    },
+                                    "Header": {
+                                        "Title": "Host Pool Usage",
+                                        "Subtitle": ""
+                                    },
+                                    "Donut": {
+                                        "Query": "WVD_CL | where ActivityType_s == \"Connection\"  and Status_d == '1' | distinct StartTime_t, EndTime_t, UserName_s, Details_SessionHostName_s, Details_SessionHostPoolName_s | extend Seconds = datetime_diff('second', EndTime_t, StartTime_t) | extend Hours = Seconds / 3600.00 | summarize sum(Hours) by Details_SessionHostPoolName_s",
+                                        "CenterLegend": {
+                                            "Text": "Time",
+                                            "Operation": "Percentage",
+                                            "ArcsToSelect": []
+                                        },
+                                        "Options": {
+                                            "colors": [
+                                                "#00188f",
+                                                "#0072c6",
+                                                "#00bcf2"
+                                            ],
+                                            "valueColorMapping": []
+                                        },
+                                        "NavigationSelect": {}
+                                    },
+                                    "List": {
+                                        "Query": "WVD_CL | where ActivityType_s == \"Connection\"  and Status_d == '1' | distinct StartTime_t, EndTime_t, UserName_s, Details_SessionHostName_s, Details_SessionHostPoolName_s | extend Seconds = datetime_diff('second', EndTime_t, StartTime_t) | extend Hours = Seconds / 3600.00 | summarize sum(Hours) by Details_SessionHostName_s",
+                                        "HideGraph": false,
+                                        "enableSparklines": false,
+                                        "ColumnsTitle": {
+                                            "Name": "Host",
+                                            "Value": "USAGE_TIME"
+                                        },
+                                        "Color": "#0072c6",
+                                        "thresholds": {
+                                            "isEnabled": false,
+                                            "values": [
+                                                {
+                                                    "name": "Normal",
+                                                    "threshold": "Default",
+                                                    "color": "#009e49",
+                                                    "isDefault": true
+                                                },
+                                                {
+                                                    "name": "Warning",
+                                                    "threshold": "60",
+                                                    "color": "#fcd116",
+                                                    "isDefault": false
+                                                },
+                                                {
+                                                    "name": "Error",
+                                                    "threshold": "90",
+                                                    "color": "#ba141a",
+                                                    "isDefault": false
+                                                }
+                                            ]
+                                        },
+                                        "NameDSVSeparator": "",
+                                        "NavigationQuery": "search {selected item} | sort by TimeGenerated desc",
+                                        "NavigationSelect": {
+                                            "NavigationQuery": "search {selected item} | sort by TimeGenerated desc"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "Id": "SingleQueryDonutBuilderBladeV1",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "Usage OVER TIME",
+                                        "newGroup": false,
+                                        "icon": "",
+                                        "useIcon": false
+                                    },
+                                    "Header": {
+                                        "Title": "--",
+                                        "Subtitle": ""
+                                    },
+                                    "Donut": {
+                                        "Query": "WVD_CL | where ActivityType_s == \"Connection\"  and Status_d == '1' | distinct StartTime_t, EndTime_t, UserName_s, Details_SessionHostName_s, Details_SessionHostPoolName_s | extend Seconds = datetime_diff('second', EndTime_t, StartTime_t) | extend Hours = Seconds / 3600.00 | summarize sum(Hours) by Details_SessionHostName_s",
+                                        "CenterLegend": {
+                                            "Text": "Time",
+                                            "Operation": "Percentage",
+                                            "ArcsToSelect": []
+                                        },
+                                        "Options": {
+                                            "colors": [
+                                                "#00188f",
+                                                "#0072c6",
+                                                "#00bcf2"
+                                            ],
+                                            "valueColorMapping": []
+                                        },
+                                        "NavigationSelect": {}
+                                    },
+                                    "List": {
+                                        "Query": "WVD_CL | where ActivityType_s == \"Connection\"  and Status_d == '1' | distinct StartTime_t, EndTime_t, UserName_s, Details_SessionHostName_s, Details_SessionHostPoolName_s | extend Seconds = datetime_diff('second', EndTime_t, StartTime_t) | extend Hours = Seconds / 3600.00 | summarize sum(Hours) by UserName_s, Host=Details_SessionHostName_s",
+                                        "HideGraph": false,
+                                        "enableSparklines": false,
+                                        "ColumnsTitle": {
+                                            "Name": "UserName",
+                                            "Value": "USAGETIME"
+                                        },
+                                        "Color": "#0072c6",
+                                        "thresholds": {
+                                            "isEnabled": false,
+                                            "values": [
+                                                {
+                                                    "name": "Normal",
+                                                    "threshold": "Default",
+                                                    "color": "#009e49",
+                                                    "isDefault": true
+                                                },
+                                                {
+                                                    "name": "Warning",
+                                                    "threshold": "60",
+                                                    "color": "#fcd116",
+                                                    "isDefault": false
+                                                },
+                                                {
+                                                    "name": "Error",
+                                                    "threshold": "90",
+                                                    "color": "#ba141a",
+                                                    "isDefault": false
+                                                }
+                                            ]
+                                        },
+                                        "NameDSVSeparator": "",
+                                        "NavigationQuery": "search {selected item} | sort by TimeGenerated desc",
+                                        "NavigationSelect": {
+                                            "NavigationQuery": "search {selected item} | sort by TimeGenerated desc"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "Id": "SingleQueryDonutBuilderBladeV1",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "Usage over Time",
+                                        "newGroup": false,
+                                        "icon": "",
+                                        "useIcon": false
+                                    },
+                                    "Header": {
+                                        "Title": "Usage by User",
+                                        "Subtitle": "in Hours"
+                                    },
+                                    "Donut": {
+                                        "Query": "WVD_CL | where ActivityType_s == \"Connection\"  and Status_d == '1' | distinct StartTime_t, EndTime_t, UserName_s, Details_SessionHostName_s, Details_SessionHostPoolName_s | extend Seconds = datetime_diff('second', EndTime_t, StartTime_t) | extend Hours = Seconds / 3600.00 | summarize sum(Hours) by UserName_s",
+                                        "CenterLegend": {
+                                            "Text": "Hours",
+                                            "Operation": "Percentage",
+                                            "ArcsToSelect": []
+                                        },
+                                        "Options": {
+                                            "colors": [
+                                                "#00188f",
+                                                "#0072c6",
+                                                "#00bcf2"
+                                            ],
+                                            "valueColorMapping": []
+                                        },
+                                        "NavigationSelect": {}
+                                    },
+                                    "List": {
+                                        "Query": "WVD_CL | where ActivityType_s == \"Connection\"  and Status_d == '1' | distinct StartTime_t, EndTime_t, UserName_s, Details_SessionHostName_s, Details_SessionHostPoolName_s | extend Seconds = datetime_diff('second', EndTime_t, StartTime_t) | extend Hours = Seconds / 3600.00 | summarize sum(Hours) by UserName_s",
+                                        "HideGraph": false,
+                                        "enableSparklines": false,
+                                        "ColumnsTitle": {
+                                            "Name": "UserName",
+                                            "Value": "USAGETIME"
+                                        },
+                                        "Color": "#0072c6",
+                                        "thresholds": {
+                                            "isEnabled": false,
+                                            "values": [
+                                                {
+                                                    "name": "Normal",
+                                                    "threshold": "Default",
+                                                    "color": "#009e49",
+                                                    "isDefault": true
+                                                },
+                                                {
+                                                    "name": "Warning",
+                                                    "threshold": "60",
+                                                    "color": "#fcd116",
+                                                    "isDefault": false
+                                                },
+                                                {
+                                                    "name": "Error",
+                                                    "threshold": "90",
+                                                    "color": "#ba141a",
+                                                    "isDefault": false
+                                                }
+                                            ]
+                                        },
+                                        "NameDSVSeparator": "",
+                                        "NavigationQuery": "search {selected item} | sort by TimeGenerated desc",
+                                        "NavigationSelect": {
+                                            "NavigationQuery": "search {selected item} | sort by TimeGenerated desc"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "Filters": [],
+                        "OverviewTile": {
+                            "Id": "SingleQueryDonutBuilderTileV1",
+                            "Type": "OverviewTile",
+                            "Version": 2,
+                            "Configuration": {
+                                "Donut": {
+                                    "Query": "WVD_CL | where ActivityType_s == \"Connection\"  and Status_d == '1' | distinct StartTime_t, EndTime_t, UserName_s, Details_SessionHostName_s, Details_SessionHostPoolName_s | extend Seconds = datetime_diff('second', EndTime_t, StartTime_t) | extend Hours = Seconds / 3600.00 | summarize sum(Hours) by Details_SessionHostPoolName_s",
+                                    "CenterLegend": {
+                                        "Text": "Hours",
+                                        "Operation": "Percentage",
+                                        "ArcsToSelect": [
+                                            "UsageTime"
+                                        ]
+                                    },
+                                    "Options": {
+                                        "colors": [
+                                            "#00188f",
+                                            "#0072c6",
+                                            "#00bcf2"
+                                        ],
+                                        "valueColorMapping": []
+                                    }
+                                },
+                                "Advanced": {
+                                    "DataFlowVerification": {
+                                        "Enabled": false,
+                                        "Query": "search * | limit 1 | project TimeGenerated",
+                                        "Message": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

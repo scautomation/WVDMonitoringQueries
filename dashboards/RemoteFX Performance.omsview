@@ -1,0 +1,428 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "resourcegroup": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "subscriptionId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "workspace": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "workspaceapiversion": {
+            "type": "string",
+            "defaultValue": ""
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "[parameters('workspaceapiversion')]",
+            "name": "[parameters('workspace')]",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "location": "[parameters('location')]",
+            "id": "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'))]",
+            "resources": [
+                {
+                    "apiVersion": "2015-11-01-preview",
+                    "name": "RemoteFX Performance",
+                    "type": "views",
+                    "location": "[parameters('location')]",
+                    "id": "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'),'/views/RemoteFX Performance')]",
+                    "dependson": [
+                        "[Concat('/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', parameters('resourcegroup'), '/providers/Microsoft.OperationalInsights/workspaces/', parameters('workspace'))]"
+                    ],
+                    "properties": {
+                        "Id": "RemoteFX Performance",
+                        "Name": "RemoteFX Performance",
+                        "Author": null,
+                        "Source": "Local",
+                        "Version": 2,
+                        "Dashboard": [
+                            {
+                                "Id": "InformationBlade",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "Title": "",
+                                        "NewGroup": false,
+                                        "Color": "#ff8c00"
+                                    },
+                                    "Header": {
+                                        "Image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAztJREFUeNrUmktoE1EUhqexKj4zJWoaqIpVaVGxKr6ogsaNbhS0YKkKFeKmriwFEaXYnY+FYjeCbmtRRBeuXIlLMe1CXGlduBOt0rS1FaF2/A+ciWMy0yT3njvN/PBtMuHc8899zJ1zp8ZxHEtAKXAE7AdNYBOwGVKO+QQ+gDfgFfii23CNhoHV4CyzWzHGEBgEA2BUKQIZqJAG0A+mHTn9AvfB2krzqeTPi8AVMOWYE92UPrBY2kAzeOeEp/fcZsncYmWMsjaQBdut8LSN22zTnQMXwYwzf5rhHJSGUJdTPeoKyjNoGT0JnoIFCt1/GXwOuNYIbirE/APawbNyhlATmNS4W4fm6NW0Rlxa/baWmsQLwROwXGMC2orXSmkpeMw55lVooAe0aK4gcUMG3NWpJ8hAA+gVWAJtRXPlqpdzLTJwlbvJpAFbID7leK3QwCpwXughFDdsgNTJOecN0A9LhIKbHkIW59rpNdAhuA2wQ+gB0hnXQBLsiqCBnaCeDKTpxUYwcDwkA5TzYTLQKryTDGMOuDoQ44eDFcEhRNpCBtYJB42HaGC9O4klVRuwl1opPNdIa2KaG7dK7nSdgXZWxCwzskOYwPmtxISBuPEQxj9pnAx8NRC4LiQDo2RgJMI98DHGtUpppbgXvNSbMEAv9af5NTKKaicDtK/+ZmCNNi0qpyRpCH3nKnHUNOROYtIj4eDTXP9JMzfAlHAbg966UEKwXE71m70+NSH67bdgFTvhrQv9AA+E7sw98Nbnd/rtjlAbDznn/ypzKc2KnKuDc1TmWgXiT3KuRZU5Oq+6LrQ6BGlWIH6f5TlbK9zM9YNhzQaOKV4rR8M8RD23q7ibG0FOo4snwA6fuC18TVWU08Zyy+snwHNLrbxu8ZJ5F7zkIXUUdNP+XTEelddPgRfFAzZ4wmXAbBUcblAOF1QP+TJVcMSU0T2lPA7G5iH5HLctcsy6AWRDTD7LbYoedNeCS2DcYOK0SnVzW+In9S5JcEtzSfRL/DbHrigfnY896C2LPvQ4B/b4PBRLiZ7KdJg9wLvhMaUCqdDnNgkqtIJ9oBlspqITWMYvSj/5pWnE+ve5zev8hkxDfwUYAP0NkvYTPlJVAAAAAElFTkSuQmCC",
+                                        "Label": "RemoteFX Metrics",
+                                        "Link": {
+                                            "Label": "More info",
+                                            "Url": "https://docs.microsoft.com/en-us/windows-server/administration/performance-tuning/role/remote-desktop/virtualization-hosts"
+                                        }
+                                    },
+                                    "List": [
+                                        {
+                                            "Title": "Summary Information",
+                                            "Content": "#### Average Encoding Time\n1. **Expected range:** Below 30ms but occasional spikes are tolerated.\n1. **Note:** This is the most likely cause for slow RDP connections.\n\n#### Output Frames/sec\n1. **Expected range:** Below 30ms and matches Input frames/sec.\n\n#### Input Frames/sec\n1. **Expected range:** depends on how fast the app/graphics is rendering in the session but it is also affected by average encoding time.\n\n#### Frames skipped/second\n1. **Insufficient network resources**\n2. **Insufficient server resources**\n3. **Insufficient client resources**\n\nThese metrics provide the reason for when output frames/sec is lower than input frames/sec.\n\n#### Graphics compression ratio\nThese are interesting counters if poor quality of encoding is observed but it's not too critical to track.\n\n#### Other\nSource frames/sec - not used\nFrame quality - not user.\n"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "Id": "LineChartCalloutStackedBuilderBlade",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "RemoteFX Network",
+                                        "newGroup": false
+                                    },
+                                    "charts": [
+                                        {
+                                            "Header": {
+                                                "Title": "RemoteFX Network Current TCP RTT",
+                                                "Subtitle": "by Computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Network\" and CounterName == \"Current TCP RTT\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        },
+                                        {
+                                            "Header": {
+                                                "Title": "RemoteFX Network Base TCP RTT",
+                                                "Subtitle": "by Computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Network\" and CounterName == \"Base TCP RTT\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        },
+                                        {
+                                            "Header": {
+                                                "Title": "RemoteFX Base and Current TCP RTT",
+                                                "Subtitle": ""
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Network\"  | summarize Value=avg(CounterValue) by bin(TimeGenerated, 5m), CounterName",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "Id": "LineChartCalloutStackedBuilderBlade",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "RemoteFX Graphics",
+                                        "newGroup": false
+                                    },
+                                    "charts": [
+                                        {
+                                            "Header": {
+                                                "Title": "Average Encoding Time",
+                                                "Subtitle": "by computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Average Encoding Time\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        },
+                                        {
+                                            "Header": {
+                                                "Title": "Output Frames/Sec",
+                                                "Subtitle": "by computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Output Frames/Second\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        },
+                                        {
+                                            "Header": {
+                                                "Title": "Input Frames/Sec",
+                                                "Subtitle": "by computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Input Frames/Second\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "Id": "LineChartCalloutStackedBuilderBlade",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "RemoteFX Graphics",
+                                        "newGroup": false
+                                    },
+                                    "charts": [
+                                        {
+                                            "Header": {
+                                                "Title": "Frames Skipped/Second - Insufficient Network Resources",
+                                                "Subtitle": "by computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Frames Skipped/Second - Insufficient Network Resources\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        },
+                                        {
+                                            "Header": {
+                                                "Title": "Frames Skipped/Second - Insufficient Server Resources",
+                                                "Subtitle": "by computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Frames Skipped/Second - Insufficient Server Resources\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        },
+                                        {
+                                            "Header": {
+                                                "Title": "Frames Skipped/Second - Insufficient Client Resources",
+                                                "Subtitle": "by computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Frames Skipped/Second - Insufficient Client Resources\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "Id": "LineChartCalloutStackedBuilderBlade",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "RemoteFX Graphics",
+                                        "newGroup": false
+                                    },
+                                    "charts": [
+                                        {
+                                            "Header": {
+                                                "Title": "Source Frames/Second",
+                                                "Subtitle": "by computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Source Frames/Second\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        },
+                                        {
+                                            "Header": {
+                                                "Title": "Frame Quality",
+                                                "Subtitle": "by computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Frame Quality\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        },
+                                        {
+                                            "Header": {
+                                                "Title": "Graphics Compression Ratio",
+                                                "Subtitle": "by computer"
+                                            },
+                                            "LineChart": {
+                                                "Query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Graphics Compression ratio\"  | summarize Value=avg(CounterValue) by Computer, bin(TimeGenerated, 5m)",
+                                                "yAxis": {
+                                                    "isLogarithmic": false,
+                                                    "units": {
+                                                        "baseUnitType": "",
+                                                        "baseUnit": "",
+                                                        "displayUnit": ""
+                                                    },
+                                                    "customLabel": ""
+                                                },
+                                                "NavigationSelect": {}
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "Id": "NotableQueriesBuilderBlade",
+                                "Type": "Blade",
+                                "Version": 0,
+                                "Configuration": {
+                                    "General": {
+                                        "title": "RemoteFX Queries",
+                                        "newGroup": false,
+                                        "preselectedFilters": "Type, Computer",
+                                        "renderMode": "grid"
+                                    },
+                                    "queries": [
+                                        {
+                                            "query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Frame Quality\"  | summarize avg(CounterValue) by Computer, bin(TimeGenerated, 5m), InstanceName",
+                                            "displayName": "RemoteFX Graphics Frame Quality"
+                                        },
+                                        {
+                                            "query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Graphics Compression ratio\"  | summarize avg(CounterValue) by Computer, bin(TimeGenerated, 5m), InstanceName",
+                                            "displayName": "RemoteFX Graphics Compression Ratio"
+                                        },
+                                        {
+                                            "query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Source Frames/Second\"  | summarize avg(CounterValue) by Computer, bin(TimeGenerated, 5m), InstanceName",
+                                            "displayName": "Source Frames/Sec"
+                                        },
+                                        {
+                                            "query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Frames Skipped/Second - Insufficient Network Resources\"  | summarize avg(CounterValue) by Computer, bin(TimeGenerated, 5m), InstanceName",
+                                            "displayName": "Frames Skipped - Insufficient Network Resources"
+                                        },
+                                        {
+                                            "query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Frames Skipped/Second - Insufficient Server Resources\"  | summarize avg(CounterValue) by Computer, bin(TimeGenerated, 5m), InstanceName",
+                                            "displayName": "Frames Skipped - Insufficient Server Resources"
+                                        },
+                                        {
+                                            "query": "Perf | where ObjectName == \"RemoteFX Graphics\" and CounterName == \"Frames Skipped/Second - Insufficient Client Resources\"  | summarize avg(CounterValue) by Computer, bin(TimeGenerated, 5m), InstanceName",
+                                            "displayName": "Frames Skipped - Insufficient Client Resources"
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "Filters": [],
+                        "OverviewTile": {
+                            "Id": "LineChartBuilderTile",
+                            "Type": "OverviewTile",
+                            "Version": 2,
+                            "Configuration": {
+                                "LineChart": {
+                                    "Query": "Perf | where ObjectName == \"RemoteFX Network\"  | summarize avg(CounterValue) by bin(TimeGenerated, 5m), CounterName",
+                                    "yAxis": {
+                                        "isLogarithmic": false,
+                                        "units": {
+                                            "baseUnitType": "",
+                                            "baseUnit": "",
+                                            "displayUnit": ""
+                                        },
+                                        "customLabel": ""
+                                    }
+                                },
+                                "Advanced": {
+                                    "DataFlowVerification": {
+                                        "Enabled": false,
+                                        "Query": "search * | limit 1 | project TimeGenerated",
+                                        "Message": ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
