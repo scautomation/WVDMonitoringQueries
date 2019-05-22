@@ -24,4 +24,14 @@ RemoteFX Graphics - Graphics Compression ratio
 Example RemoteFX Dashboard
 ![image](images/remotefx.png)
 
-Other example queries include Time usage per session, sessions ending in error with error message, open apps and desktops by hostpool, count of sessions by hostpool and more. The queries are in the dashboards folder
+## WVD Information
+![image](images/WVDinformation.png)
+
+this dashboard provides count of hostpools, hosts, unique users and any errors users may have experienced during connection. The corresponding dashboard file is WVD information.omsview
+
+## WVD Usage Time
+![image](images/usagetime.png)
+
+this dashboard provides count of Hostpools and usage time of host pools, hosts, usage of hosts by users and total usage time for users.
+
+the corresponding dashboard file is time usage.omsview

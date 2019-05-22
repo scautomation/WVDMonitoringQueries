@@ -192,7 +192,7 @@
                                         "HideGraph": false,
                                         "enableSparklines": false,
                                         "ColumnsTitle": {
-                                            "Name": "Computer",
+                                            "Name": "UserName",
                                             "Value": "Log Time"
                                         },
                                         "Color": "#0072c6",
