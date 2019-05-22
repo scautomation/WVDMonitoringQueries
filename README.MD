@@ -25,12 +25,12 @@ Example RemoteFX Dashboard
 ![image](images/remotefx.png)
 
 ## WVD Information
-![image](images/WVDinformation.png)
+![image](images/WVDInformation.png)
 
 this dashboard provides count of hostpools, hosts, unique users and any errors users may have experienced during connection. The corresponding dashboard file is WVD information.omsview
 
 ## WVD Usage Time
-![image](images/usagetime.png)
+![image](images/UsageTime.png)
 
 this dashboard provides count of Hostpools and usage time of host pools, hosts, usage of hosts by users and total usage time for users.
 
